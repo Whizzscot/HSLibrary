@@ -1,0 +1,214 @@
+:root{
+    font-size:15px;
+    --padding:0.2rem;
+}
+
+html{
+  margin:0px;
+  padding:0px;
+}
+
+body{
+	margin:0px;
+	padding: 0px;
+  display: flex;
+  flex-direction: column;
+  width:100vw;
+  
+  box-sizing: border-box;
+}
+
+section {
+	padding:0.5rem;
+	display:flex;
+	flex-direction: column;
+	margin:auto;
+	width:100%;
+	box-sizing: border-box;
+	max-width: 40rem;
+}
+
+section > *{
+	margin-inline:auto;
+}
+
+form {
+	display:grid;
+	grid-row-gap: var(--padding);
+	grid-template-columns: [start] 6rem var(--padding) [form-start] 4rem 1fr [pre-button] 4rem [end];
+	grid-template-areas: "labels pad numbers space buttons";
+	justify-items: stretch;
+	width:100%;
+	box-sizing: border-box;
+	font-size: 1rem;
+	position:relative;
+}
+
+form > *{
+	font-size: inherit;
+	margin:auto;
+	max-width: 100%;
+	min-width: 0px;
+}
+
+label{
+	grid-area:labels;
+	grid-row:auto;
+	margin:0px;
+	white-space: nowrap;
+	height:1rem;
+	margin-block:0.2rem;
+	display:inline-flex;
+}
+
+label::after{
+	content:":";
+}
+
+input, textarea{
+	grid-column: form-start/end;
+	margin:0px;
+}
+
+textarea{
+	resize:none;
+}
+
+select{
+	grid-column:start/end;
+	width:10rem;
+}
+
+#tag-input, #series{
+	grid-column-end:pre-button;
+}
+
+#series-number{
+	grid-area: buttons;
+}
+
+input[type="number"]{
+	grid-area: numbers;
+	grid-row: auto !important;
+}
+
+#item-quantity:invalid{
+	color:red;
+}
+
+.tag-input{
+	padding-right:1.4rem;
+}
+
+button{
+	width:100%;
+	margin-top:0px;
+}
+
+.apply-tag{
+	position:relative;
+}
+
+.tag-cancel{
+	position:absolute;
+	display:grid;
+	place-items: center;
+	width:1.2rem;
+	height:1.2rem;
+	margin-block:auto;
+	left:-1.6rem;
+	cursor:pointer;
+}
+
+.tag-input.empty + button div{
+	display:none;
+}
+
+.applied-tags-container{
+	grid-column: form-start / end;
+	display:flex;
+	flex-direction:column-reverse;
+	width:100%;
+	padding-left: 0.1rem;
+	box-sizing: border-box;
+}
+
+.applied-tags-sort{
+	display:grid;
+	margin:0px;
+	width:100%;
+	box-sizing: border-box;
+	grid-template-columns: 3.7rem 7rem 1.7rem;
+	grid-template-areas: "labels space buttons";
+}
+
+.applied-tags-sort label{
+	grid-area: labels;
+}
+
+.applied-tags-sort-select{
+	grid-area:space;
+	width:100%;
+	position:relative;
+}
+
+.applied-tags-sort-select::after{
+	content:"(A-Z)";
+	position:absolute;
+	right: 1rem;
+	
+}
+
+.applied-tags-sort-swap{
+	grid-area: buttons;
+	
+	display: flex;
+	flex-direction:row;
+	align-items: center;
+	justify-content: center;
+	padding:0px;
+	cursor:pointer;
+}
+
+.applied-tags-container[swap='true'] .arrow1, .applied-tags-container[swap='false'] .arrow2{
+	font-weight: bold;
+}
+
+.applied-tags-list{
+	display: flex;
+	flex-direction: row;
+	flex-wrap:wrap;
+	justify-content: left;
+	gap:0.2rem;
+}
+
+.applied-tags-container[swap='true'] .applied-tags-list{
+	flex-direction:row-reverse;
+	flex-wrap: wrap-reverse;
+}
+
+.applied-tag::before{
+	
+}
+
+.applied-tags-container[swap='false'] .applied-tag:not(:last-child)::after,
+.applied-tags-container[swap='true'] .applied-tag:not(:first-child)::after{
+	content:",";
+}
+
+.applied-tags-list:empty + .applied-tags-sort{
+	display:none;
+}
+
+.applied-tags-list:empty::before{
+	content:"Applied tags will be listed here...";
+	color:#777777;
+}
+
+div.spacer{
+	grid-column: start/end;
+	width:100%;
+	margin-block: calc(var(--padding) * 2);
+	padding-block: 1rem;
+	border-block: 1px solid #ffffff;
+}

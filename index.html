@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+        <title>Homeschooler's Library</title>
+        <link rel="stylesheet" href="styles.css">
+        <script src="library.js"></script>
+        <script src="script.js" defer></script>
+    </head>
+    <body>
+    	<section>
+    		<h1 onclick="ev(this)">Hello</h1>
+    		<form id="item-info-form">
+    			<select>
+    				<option value="book">Book</option>
+    				<option value="cd">CD</option>
+    				<option value="boardgame">Board Game</option>
+    				<option value="other">Other</option>
+    			</select>
+    			<div class="spacer"></div>
+    			<label for="title">Title</label>
+    			<input id="title" name="title" type="text">
+    			<label for="subtitle">Subtitle</label>
+    			<input id="subtitle" name="subtitle" type="text">
+    			<label for="author">Author(s)</label>
+    			<input id="author" name="author" type="text">
+    			<label for="series">Series</label>
+    			<input id="series" name="series" type="text" placeholder="Name...">
+    			<input id="series-number" name="series-number" type="number" placeholder="#">
+    			<label for="description">Description</label>
+    			<textarea id="description" name="description" rows="3"></textarea>
+    			<label for="tag-input">Tags</label>
+    			<input class="tag-input empty" id="tag-input" placeholder="Type new tag..." type="text" inputmode="search" onfocus="tagInputEvent(event)" oninput="tagInputEvent(event)">
+    			<button type="button" class="apply-tag" onclick=applyTag(this.previousElementSibling)><div class="tag-cancel" onclick="this.parentElement.previousElementSibling.value=''">×</div>Apply</button>
+    			<button type="button">Select...</button>
+    			<div class="applied-tags-container" swap="false">
+    				<div class="applied-tags-list"></div>
+    				<div class="applied-tags-sort">
+    					<label for="applied-tags-sort-select">Sort by</label>
+    					<select class="applied-tags-sort-select" id="applied-tags-sort-select" oninput="sortTags(this.parentElement.parentElement.querySelector('.applied-tags-list'), this.value)">
+    						<option value="applied">Applied</option>
+    						<option value="alpha">Alphabetical</option>
+    					</select>
+    					<span class="applied-tags-sort-swap" onclick="this.parentElement.parentElement.setAttribute('swap', this.parentElement.parentElement.getAttribute('swap') == 'false')"><span class="arrow1">↑</span><span class="arrow2">↓</span></span>
+    				</div>
+    			</div>
+    			<div class="spacer"></div>
+    			<label for="item-quantity">Items</label>
+    			<input id="item-quantity" placeholder="# > 0" type="number" min="1" value="1">
+    		</form>
+    	</section>
+    </body>
+</html>
