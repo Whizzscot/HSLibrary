@@ -170,8 +170,17 @@ button{
 	cursor:pointer;
 }
 
+.applied-tags-sort-swap *{
+	vertical-align: center;
+}
+
+.applied-tags-container[swap='true'] .arrow2, .applied-tags-container[swap='false'] .arrow1{
+	color:#aaaaaa;
+}
+
 .applied-tags-container[swap='true'] .arrow1, .applied-tags-container[swap='false'] .arrow2{
 	font-weight: 700;
+	font-size: 1.1rem;
 }
 
 .applied-tags-list{
