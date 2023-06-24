@@ -14,13 +14,13 @@ function tagContextEvent(e){
 
 function tagInputEvent(event){
 	event.target.classList[event.target.value ? 'remove' : 'add']('empty');
+	
 }
 
 function applyTag(inputElem){
-	inputElem.focus();
-	if(!inputElem.value) return;
+	if(!inputElem.value) return inputElem.focus();
 	let list = inputElem.parentElement.querySelector('.applied-tags-list');
-	if(list.querySelector(`.applied-tag[tag-id='${encodeURIComponent(inputElem.value)}']`)) return;
+	if(list.querySelector(`.applied-tag[tag-id='${encodeURIComponent(inputElem.value)}']`)) return inputElem.focus();
 	let orderId = inputElem.parentElement.getAttribute('tag-order-id') || 0;
 	orderId = Number(orderId);
 	let tagElem = document.createElement('span');
@@ -34,6 +34,7 @@ function applyTag(inputElem){
 	list.appendChild(tagElem);
 	let sortMode = inputElem.parentElement.querySelector('.applied-tags-sort-select').value;
 	if(sortMode == 'alpha') sortTags(list, 'alpha');
+	inputElem.focus();
 }
 
 function tagOrderCompare(a, b){

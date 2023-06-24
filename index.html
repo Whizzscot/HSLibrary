@@ -32,7 +32,10 @@
     			<textarea id="description" name="description" rows="3"></textarea>
     			<label for="tag-input">Tags</label>
     			<input class="tag-input empty" id="tag-input" placeholder="Type new tag..." type="text" inputmode="search" onfocus="tagInputEvent(event)" oninput="tagInputEvent(event)">
-    			<button type="button" class="apply-tag" onclick=applyTag(this.previousElementSibling)><div class="tag-cancel" onclick="this.parentElement.previousElementSibling.value=''">×</div>Apply</button>
+    			<div class="tag-controls">
+    				<div class="tag-cancel" onclick="this.parentElement.previousElementSibling.value='';this.parentElement.previousElementSibling.focus();"></div>
+    				<button type="button" class="apply-tag" onclick=applyTag(this.previousElementSibling)>Apply</button>
+    			</div>
     			<button type="button">Select...</button>
     			<div class="applied-tags-container" swap="false">
     				<div class="applied-tags-list"></div>

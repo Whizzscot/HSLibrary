@@ -1,6 +1,7 @@
 :root{
     font-size:15px;
     --padding:0.2rem;
+    --button-size:4rem;
 }
 
 html{
@@ -35,7 +36,7 @@ section > *{
 form {
 	display:grid;
 	grid-row-gap: var(--padding);
-	grid-template-columns: [start] 6rem var(--padding) [form-start] 4rem 1fr [pre-button] 4rem [end];
+	grid-template-columns: [start] 6rem var(--padding) [form-start] 4rem 1fr [pre-button] var(--button-size) [end];
 	grid-template-areas: "labels pad numbers space buttons";
 	justify-items: stretch;
 	width:100%;
@@ -105,22 +106,34 @@ button{
 	margin-top:0px;
 }
 
+.tag-controls{
+	width:100%;
+	height:100%;
+	display:flex;
+	align-items: center;
+}
+
 .apply-tag{
-	position:relative;
+	height:100%;
 }
 
 .tag-cancel{
 	position:absolute;
-	display:grid;
-	place-items: center;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 2rem;
 	width:1.2rem;
 	height:1.2rem;
-	margin-block:auto;
-	left:-1.6rem;
 	cursor:pointer;
+	right:calc(var(--button-size) + 0.2rem);
 }
 
-.tag-input.empty + button div{
+.tag-cancel::after{
+	content:"×";
+}
+
+.tag-input.empty + div .tag-cancel{
 	display:none;
 }
 
