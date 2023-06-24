@@ -14,10 +14,23 @@ function tagContextEvent(e){
 
 function tagInputEvent(event){
 	event.target.classList[event.target.value ? 'remove' : 'add']('empty');
-	
+	switch(event.type){
+		case 'keyup':
+			let previousValue = event.target.getAttribute('previous-value') || '';
+			if(event.target.value && previousValue == event.target.value) applyTag(event.target);
+			event.target.setAttribute('previous-value', event.target.value);
+		break;
+		case 'input':
+			
+		break;
+		case 'focus':
+			
+		break;
+	}
 }
 
 function applyTag(inputElem){
+	inputElem.blur();
 	if(!inputElem.value) return inputElem.focus();
 	let list = inputElem.parentElement.querySelector('.applied-tags-list');
 	if(list.querySelector(`.applied-tag[tag-id='${encodeURIComponent(inputElem.value)}']`)) return inputElem.focus();

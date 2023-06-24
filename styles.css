@@ -127,6 +127,7 @@ button{
 	height:1.2rem;
 	cursor:pointer;
 	right:calc(var(--button-size) + 0.2rem);
+	overflow:hidden;
 }
 
 .tag-cancel::after{
