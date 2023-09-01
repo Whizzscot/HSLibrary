@@ -47,6 +47,7 @@ function applyTag(inputElem){
 	list.appendChild(tagElem);
 	let sortMode = document.querySelector(`form.item-info:has(#${inputElem.id}) .applied-tags-sort-select`).value;
 	if(sortMode != 'applied') sortTags(list, sortMode);
+
 }
 
 var tagCompareFunctions = {
