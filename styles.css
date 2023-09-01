@@ -1,23 +1,23 @@
 :root{
-    font-size:15px;
+    font-size:min(25px, max(5vw, 15px));
+	font-family:/*'Franklin Gothic Medium',*/ Arial, sans-serif;
     --padding:0.2rem;
     --label-space:5.5rem;
     --input-space:4rem;
 }
 
 html{
-  margin:0px;
-  padding:0px;
+	margin:0px;
+	padding:0px;
 }
 
 body{
 	margin:0px;
 	padding: 0px;
-  display: flex;
-  flex-direction: column;
-  width:100vw;
-  
-  box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	width:100%;
+	box-sizing: border-box;
 }
 
 section {
@@ -126,21 +126,19 @@ button{
 	pointer-events: none;
 }
 
+/* × */
+
 .tag-cancel{
 	position:absolute;
 	display:flex;
 	justify-content: center;
 	align-items: center;
-	font-size: 2rem;
+	font-size: 1.5rem;
 	width:1.2rem;
 	height:1.2rem;
 	cursor:pointer;
-	left:-1.6rem;
-	overflow:hidden;
-}
-
-.tag-cancel::after{
-	content:"×";
+	left:-1.4rem;
+	font-family:fantasy;
 }
 
 .tag-input:placeholder-shown + .tag-input-controls .tag-cancel{
@@ -230,10 +228,6 @@ button{
 .applied-tags-container[swap='false'] .applied-tag:not(:last-child)::after,
 .applied-tags-container[swap='true'] .applied-tag:not(:first-child)::after{
 	content:",";
-}
-
-.applied-tags-list:empty + .applied-tags-sort{
-/*	display:none;*/
 }
 
 .applied-tags-list:empty::before{
