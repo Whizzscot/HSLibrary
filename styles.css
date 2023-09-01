@@ -1,5 +1,5 @@
 :root{
-    font-size:10px;
+    font-size:15px;
     --padding:0.2rem;
     --label-space:5.5rem;
     --input-space:4rem;
@@ -107,16 +107,23 @@ button{
 	margin-top:0px;
 }
 
-.tag-controls{
+.tag-input-controls{
 	width:100%;
-	height:100%;
 	display:flex;
 	align-items: center;
+	position:relative;
+	grid-column:pre-button / end;
 }
 
 .apply-tag{
-	position:relative;
-	grid-column:pre-button / end;
+	width:100%;
+}
+
+.tag-input:placeholder-shown + .tag-input-controls .apply-tag{
+	box-shadow: none;
+	opacity:0.4;
+	cursor: not-allowed;
+	pointer-events: none;
 }
 
 .tag-cancel{
@@ -128,7 +135,7 @@ button{
 	width:1.2rem;
 	height:1.2rem;
 	cursor:pointer;
-	right:calc(var(--button-size) + 0.2rem);
+	left:-1.6rem;
 	overflow:hidden;
 }
 
@@ -136,7 +143,7 @@ button{
 	content:"×";
 }
 
-.tag-input:placeholder-shown + button div{
+.tag-input:placeholder-shown + .tag-input-controls .tag-cancel{
 	display:none;
 }
 
