@@ -11,7 +11,7 @@
     <body>
     	<section>
     		<h1 onclick="ev(this)">Hello</h1>
-    		<form id="item-info-form">
+    		<form class="item-info" id="item-info-form">
     			<select>
     				<option value="book">Book</option>
     				<option value="cd">CD</option>
@@ -19,6 +19,8 @@
     				<option value="other">Other</option>
     			</select>
     			<div class="spacer"></div>
+    			<label for="item-quantity">Items</label>
+    			<input id="item-quantity" placeholder="(1+)" type="number" min="1" value="1">
     			<label for="title">Title</label>
     			<input id="title" name="title" type="text">
     			<label for="subtitle">Subtitle</label>
@@ -31,26 +33,30 @@
     			<label for="description">Description</label>
     			<textarea id="description" name="description" rows="3"></textarea>
     			<label for="tag-input">Tags</label>
-    			<input class="tag-input empty" id="tag-input" placeholder="Type new tag..." type="text" inputmode="search" onkeyup="tagInputEvent(event)" onfocus="tagInputEvent(event)" oninput="tagInputEvent(event)">
-    			<div class="tag-controls">
-    				<div class="tag-cancel" onclick="this.parentElement.previousElementSibling.value='';this.parentElement.previousElementSibling.focus();"></div>
-    				<button type="button" class="apply-tag" onclick=applyTag(this.parentElement.previousElementSibling)>Apply</button>
-    			</div>
-    			<button type="button">Select...</button>
+    			<input class="tag-input" id="tag-input" placeholder="Type new tag..." type="text" inputmode="search" onbeforeinput="if(event.inputType=='insertLineBreak')applyTag(this)">
+    			<button type="button" class="apply-tag" onclick=applyTag(this.previousElementSibling)><div class="tag-cancel" onclick="this.parentElement.previousElementSibling.value=''">×</div>Apply</button>
     			<div class="applied-tags-container" swap="false">
     				<div class="applied-tags-list"></div>
     				<div class="applied-tags-sort">
     					<label for="applied-tags-sort-select">Sort by</label>
     					<select class="applied-tags-sort-select" id="applied-tags-sort-select" oninput="sortTags(this.parentElement.parentElement.querySelector('.applied-tags-list'), this.value)">
     						<option value="applied">Applied</option>
-    						<option value="alpha">Alphabetical</option>
+    						<option value="alphabetical">Alphabetical</option>
     					</select>
-    					<span class="applied-tags-sort-swap" onclick="this.parentElement.parentElement.setAttribute('swap', this.parentElement.parentElement.getAttribute('swap') == 'false')"><span class="arrow1">↑</span><span class="arrow2">↓</span></span>
+    					<span class="applied-tags-sort-swap" onclick="this.parentElement.parentElement.setAttribute('swap', this.parentElement.parentElement.getAttribute('swap') == 'false')">
+    						<span class="arrow1">↑</span>
+    						<span class="arrow2">↓</span>
+    					</span>
+    					<button class="select-tags-button" type="button">Select...</button>
     				</div>
     			</div>
     			<div class="spacer"></div>
-    			<label for="item-quantity">Items</label>
-    			<input id="item-quantity" placeholder="# > 0" type="number" min="1" value="1">
+    			<div class="spacer"></div>
+    			<div class="spacer"></div>
+    			<div class="spacer"></div>
+    			<div class="spacer"></div>
+    			<div class="spacer"></div>
+    			a
     		</form>
     	</section>
     </body>

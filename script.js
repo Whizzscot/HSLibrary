@@ -5,66 +5,63 @@ function ev(el){
 	console.log('Hello', el.innerText);
 }
 
-function tagContextEvent(e){
-	let input = e.target.parentElement.parentElement.parentElement.querySelector('.tag-input');
-	input.value = e.target.innerText;
-	e.target.remove();
-	input.focus();
-}
-
-function tagInputEvent(event){
-	event.target.classList[event.target.value ? 'remove' : 'add']('empty');
-	switch(event.type){
-		case 'keyup':
-			let previousValue = event.target.getAttribute('previous-value') || '';
-			if(event.target.value && previousValue == event.target.value) applyTag(event.target);
-			event.target.setAttribute('previous-value', event.target.value);
-		break;
-		case 'input':
-			
-		break;
-		case 'focus':
-			
-		break;
-	}
-}
-
-function applyTag(inputElem){
-	inputElem.blur();
-	if(!inputElem.value) return inputElem.focus();
-	let list = inputElem.parentElement.querySelector('.applied-tags-list');
-	if(list.querySelector(`.applied-tag[tag-id='${encodeURIComponent(inputElem.value)}']`)) return inputElem.focus();
-	let orderId = inputElem.parentElement.getAttribute('tag-order-id') || 0;
-	orderId = Number(orderId);
-	let tagElem = document.createElement('span');
-	tagElem.classList.add('applied-tag');
-	tagElem.setAttribute('tag-order-id', orderId);
-	tagElem.setAttribute('tag-id', encodeURIComponent(inputElem.value));
-	tagElem.innerText = inputElem.value;
-	tagElem.addEventListener('contextmenu', tagContextEvent);
-	inputElem.parentElement.setAttribute('tag-order-id', ++orderId);
-	inputElem.value = '';
-	list.appendChild(tagElem);
-	let sortMode = inputElem.parentElement.querySelector('.applied-tags-sort-select').value;
-	if(sortMode == 'alpha') sortTags(list, 'alpha');
+function removeTag(tagElem, inputElem){
+	inputElem = inputElem || tagElem.parentElement.parentElement.parentElement.querySelector('.tag-input');
+	if(!inputElem) return console.error('pointer to inputElem invalid');
+	inputElem.value = tagElem.innerText;
+	tagElem.remove();
 	inputElem.focus();
 }
 
-function tagOrderCompare(a, b){
-	let aVal = Number(a.getAttribute('tag-order-id'))||0;
-	let bVal = Number(b.getAttribute('tag-order-id'))||0;
-	return aVal - bVal;
+function beforeInput({data, dataTransfer, inputType, isComposing}){
+	console.log({data, dataTransfer, inputType, isComposing});
 }
 
-function tagAlphaCompare(a, b){
-	const tagA = a.innerText.toLowerCase(); // ignore upper and lowercase
-	const tagB = b.innerText.toLowerCase(); // ignore upper and lowercase
-	return tagA.localeCompare(tagB);
+//let elem = document.querySelector('.tag-input');
+//Object.keys(window).forEach(key => {
+//	if(!/^on/.test(key)) return;
+//	elem.addEventListener(key.slice(2), ({type})=>console.log(type))
+//});
+
+function encodeTag(tag){
+	return encodeURIComponent(tag);
 }
+
+function applyTag(inputElem){
+	inputElem.focus();
+	if(!inputElem.value) return;
+	let tag = inputElem.value;
+	let encodedTag = encodeTag(tag);
+	let list = document.querySelector(`form.item-info:has(#${inputElem.id}) .applied-tags-list`);
+	if(list.querySelector(`.applied-tag[tag-id='${encodedTag.replace(/'/g,"\\'")}']`)) return;
+	let orderId = inputElem.getAttribute('tag-order-id') || 0;
+	orderId = Number(orderId) || 0;
+	let tagElem = document.createElement('span');
+	tagElem.classList.add('applied-tag');
+	tagElem.setAttribute('applied-order', orderId);
+	tagElem.setAttribute('tag-id', encodedTag);
+	tagElem.innerText = inputElem.value;
+	tagElem.addEventListener('contextmenu', e => removeTag(e.target, inputElem));
+	inputElem.setAttribute('tag-order-id', ++orderId);
+	inputElem.value = '';
+	list.appendChild(tagElem);
+	let sortMode = document.querySelector(`form.item-info:has(#${inputElem.id}) .applied-tags-sort-select`).value;
+	if(sortMode != 'applied') sortTags(list, sortMode);
+
+}
+
+var tagCompareFunctions = {
+	alphabetical:(a, b) => {
+		return a.innerText.localeCompare(b.innerText);
+	},
+	applied:(a, b) => {
+		let aVal = Number(a.getAttribute('applied-order'))||0;
+		let bVal = Number(b.getAttribute('applied-order'))||0;
+		return aVal - bVal;
+	}
+};
 
 function sortTags(list, mode){
-	let f = tagOrderCompare;
-	if(mode == 'alpha') f = tagAlphaCompare;
 	let tags = Array.from(list.childNodes);
-	tags.sort(f).map(list.appendChild.bind(list));
+	tags.sort(tagCompareFunctions[mode]).map(list.appendChild.bind(list));
 }

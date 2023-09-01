@@ -1,7 +1,8 @@
 :root{
-    font-size:15px;
+    font-size:10px;
     --padding:0.2rem;
-    --button-size:4rem;
+    --label-space:5.5rem;
+    --input-space:4rem;
 }
 
 html{
@@ -36,8 +37,8 @@ section > *{
 form {
 	display:grid;
 	grid-row-gap: var(--padding);
-	grid-template-columns: [start] 6rem var(--padding) [form-start] 4rem 1fr [pre-button] var(--button-size) [end];
-	grid-template-areas: "labels pad numbers space buttons";
+	grid-template-columns: [start] var(--label-space) var(--padding) [form-start] var(--input-space) 1fr 7fr [pre-button] 1fr var(--input-space) [end];
+	grid-template-areas: "labels pad numbers numbers space buttons buttons";
 	justify-items: stretch;
 	width:100%;
 	box-sizing: border-box;
@@ -45,7 +46,7 @@ form {
 	position:relative;
 }
 
-form > *{
+form *{
 	font-size: inherit;
 	margin:auto;
 	max-width: 100%;
@@ -97,7 +98,7 @@ input[type="number"]{
 	color:red;
 }
 
-.tag-input{
+.tag-input:not(:placeholder-shown){
 	padding-right:1.4rem;
 }
 
@@ -114,7 +115,8 @@ button{
 }
 
 .apply-tag{
-	height:100%;
+	position:relative;
+	grid-column:pre-button / end;
 }
 
 .tag-cancel{
@@ -134,16 +136,16 @@ button{
 	content:"×";
 }
 
-.tag-input.empty + div .tag-cancel{
+.tag-input:placeholder-shown + button div{
 	display:none;
 }
 
 .applied-tags-container{
-	grid-column: form-start / end;
+	grid-column: start / end;
 	display:flex;
 	flex-direction:column-reverse;
 	width:100%;
-	padding-left: 0.1rem;
+	position:relative;
 	box-sizing: border-box;
 }
 
@@ -152,18 +154,20 @@ button{
 	margin:0px;
 	width:100%;
 	box-sizing: border-box;
-	grid-template-columns: 3.7rem 7rem 1.7rem;
-	grid-template-areas: "labels space buttons";
+	grid-template-columns: calc(var(--label-space) - 1.7rem) 1.7rem var(--padding) var(--input-space) 8fr 1fr var(--input-space);
+	grid-template-areas: "labels swap pad sort sort select select";
 }
+
 
 .applied-tags-sort label{
 	grid-area: labels;
 }
 
 .applied-tags-sort-select{
-	grid-area:space;
-	width:100%;
+	grid-area:sort;
+	width:min(100%, 7.7rem);
 	position:relative;
+	margin:0px;
 }
 
 .applied-tags-sort-select::after{
@@ -174,7 +178,7 @@ button{
 }
 
 .applied-tags-sort-swap{
-	grid-area: buttons;
+	grid-area: swap;
 	
 	display: flex;
 	flex-direction:row;
@@ -202,6 +206,8 @@ button{
 	flex-direction: row;
 	flex-wrap:wrap;
 	justify-content: left;
+	width:100%;
+	margin-block:var(--padding);
 	gap:0.2rem;
 }
 
@@ -210,8 +216,8 @@ button{
 	flex-wrap: wrap-reverse;
 }
 
-.applied-tag::before{
-	
+.applied-tag{
+	margin:0px;
 }
 
 .applied-tags-container[swap='false'] .applied-tag:not(:last-child)::after,
@@ -220,12 +226,17 @@ button{
 }
 
 .applied-tags-list:empty + .applied-tags-sort{
-	display:none;
+/*	display:none;*/
 }
 
 .applied-tags-list:empty::before{
 	content:"Applied tags will be listed here...";
 	color:#777777;
+}
+
+.select-tags-button{
+	grid-area:select;
+	padding-inline:0.1rem;
 }
 
 div.spacer{
