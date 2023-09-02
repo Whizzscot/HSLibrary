@@ -6,6 +6,12 @@
     --input-space:4rem;
 }
 
+@media (pointer:fine){
+	:root{
+		font-size:15px;
+	}
+}
+
 html{
 	margin:0px;
 	padding:0px;
@@ -19,6 +25,20 @@ body{
 	width:100%;
 	box-sizing: border-box;
 }
+
+dialog::backdrop{
+	height:100vh;
+}
+
+/* dialog.self-close::after{
+	content:"×";
+	font-family:fantasy;
+	font-size:1.5rem;
+	position:absolute;
+	top:var(--padding);
+	right:var(--padding);
+	cursor:pointer;
+} */
 
 section {
 	padding:0.5rem;
@@ -34,7 +54,7 @@ section > *{
 	margin-inline:auto;
 }
 
-form {
+form.item-info {
 	display:grid;
 	grid-row-gap: var(--padding);
 	grid-template-columns: [start] var(--label-space) var(--padding) [form-start] var(--input-space) 1fr 7fr [pre-button] 1fr var(--input-space) [end];
@@ -223,6 +243,78 @@ button{
 
 .applied-tag{
 	margin:0px;
+	cursor:context-menu;
+	position:relative;
+}
+
+.applied-tag::before{
+	z-index:-1;
+	position:absolute;
+	content:attr(tag-value);
+	color:rgba(0,0,0,0);
+	padding-inline:var(--padding);
+	/* top:calc(0px - var(--padding)); */
+	left:calc(0px - var(--padding));
+	border-radius:var(--padding);
+	height:100%;
+}
+
+.applied-tag:hover::before{
+	background-color:#cccccc;
+}
+
+.applied-tag.selected::before{
+	background-color:#aac5ff;
+}
+
+#tag-context-dialog{
+	margin:0px;
+	padding:0px;
+	outline:0px;
+	border:0px;
+	background-color:rgba(0,0,0,0);
+}
+
+#tag-context-dialog[open]{
+	animation:fade-in 300ms ease-out;
+}
+
+@keyframes fade-in{
+	from{opacity:0}
+	to{opacity:1}
+}
+
+#tag-context-menu, #tag-context-menu form {
+	display:flex;
+	flex-direction:column;
+	align-items: center;
+	position:relative;
+}
+
+#tag-context-menu button{
+	width:5rem;
+}
+
+@media (pointer:coarse){
+	.applied-tag{
+		user-select: none;
+	}
+
+	#tag-context-dialog{
+		position:fixed;
+		margin:auto;
+	}
+
+	#tag-context-menu::before{
+		content:'"' attr(selected-tag) '"';
+		box-sizing: border-box;
+		text-align: center;
+		padding:var(--padding);
+		min-width:5rem;
+		background-color:white;
+		border:2px solid #777777;
+		border-radius:3px;
+	}
 }
 
 .applied-tags-container[swap='false'] .applied-tag:not(:last-child)::after,
