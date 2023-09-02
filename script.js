@@ -87,30 +87,16 @@ function applyTag(inputElem, focus=true){
 	inputElem.setAttribute('tag-order-id', ++orderId);
 	inputElem.value = '';
 	list.appendChild(tagElem);
-	let sortMode = document.querySelector(`form.item-info:has(#${inputElem.id}) .applied-tags-sort-select`).value;
-	if(sortMode != 'applied') sortTags(list, sortMode);
-
 }
 
+new MutationObserver(mutations => {
+	let list = mutations[0].target;
+	let button = list.parentElement.querySelector(".remove-tags");
+	button.disabled = !list.childElementCount;
+}).observe(document.querySelector(".applied-tags-list"), {childList:true})
 
 const tagInput = document.querySelector(".tag-input");
 for(let x = 0; x < 100; x++){
 	tagInput.value = Math.random().toString(36).slice(10);
 	applyTag(tagInput);
-}
-
-var tagCompareFunctions = {
-	alphabetical:(a, b) => {
-		return a.innerText.localeCompare(b.innerText);
-	},
-	applied:(a, b) => {
-		let aVal = Number(a.getAttribute('applied-order'))||0;
-		let bVal = Number(b.getAttribute('applied-order'))||0;
-		return aVal - bVal;
-	}
-};
-
-function sortTags(list, mode){
-	let tags = Array.from(list.childNodes);
-	tags.sort(tagCompareFunctions[mode]).map(list.appendChild.bind(list));
 }
