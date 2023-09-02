@@ -63,10 +63,6 @@ function encodeTag(tag){
 	return encodeURIComponent(tag);
 }
 
-function getTagById(parent=new HTMLElement(), id="", isValue=false){
-	return parent.querySelector(`.applied-tag[tag-${isValue ? "value" : "id"}='${id.replace(/'/g, "\\'")}']`);
-}
-
 function applyTag(inputElem, focus=true){
 	if(focus) inputElem.focus();
 	if(!inputElem.value) return;
@@ -99,4 +95,8 @@ const tagInput = document.querySelector(".tag-input");
 for(let x = 0; x < 100; x++){
 	tagInput.value = Math.random().toString(36).slice(10);
 	applyTag(tagInput);
+}
+
+function getTagById(parent=new HTMLElement(), id="", isValue=false){
+	return parent.querySelector(`.applied-tag[tag-${isValue ? "value" : "id"}='${id.replace(/'/g, "\\'")}']`);
 }
